@@ -10,7 +10,9 @@ public class DepartureTimeFilter implements FlightFilter {
     public List<Flight> filter(List<Flight> flights) {
         LocalDateTime now = LocalDateTime.now();
         return flights.stream()
-                .filter(flight -> flight.getSegments().get(0).getDepartureDate().isAfter(now))
+                .filter(flight -> flight.getSegments().stream()
+                        .allMatch(segment -> segment.getDepartureDate().isAfter(now)))
                 .collect(Collectors.toList());
     }
 }
+
